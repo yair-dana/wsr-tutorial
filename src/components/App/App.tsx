@@ -9,6 +9,7 @@ import {
 } from 'wix-style-react';
 import ActiveBar from '../ActiveBar/ActiveBar';
 import GeneralInfoForm from '../GeneralInfoForm/GeneralInfoForm';
+import RoleDetails from "../RoleDetails/RoleDetails";
 
 function App() {
   const submitForm = () => {};
@@ -34,10 +35,7 @@ function App() {
               <GeneralInfoForm />
             </Cell>
             <Cell span={4}>
-              <Card>
-                <Card.Header title="Role details" />
-                <Card.Divider />
-              </Card>
+              <RoleDetails/>
             </Cell>
           </Layout>
         </Page.Content>
