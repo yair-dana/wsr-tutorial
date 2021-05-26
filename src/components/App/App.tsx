@@ -1,21 +1,48 @@
 import React from 'react';
-import { withTranslation, WithTranslation } from '@wix/wix-i18n-config';
-import s from './App.scss';
+import {
+  Layout,
+  Cell,
+  Card,
+  Breadcrumbs,
+  WixStyleReactProvider,
+  Page,
+} from 'wix-style-react';
+import ActiveBar from '../ActiveBar/ActiveBar';
+import GeneralInfoForm from '../GeneralInfoForm/GeneralInfoForm';
 
-interface AppProps extends WithTranslation {}
+function App() {
+  const submitForm = () => {};
 
-class App extends React.Component<AppProps> {
-  render() {
-    const { t } = this.props;
+  const clearForm = () => {};
 
-    return (
-      <div className={s.root}>
-        <h2 className={s.title} data-hook="app-title">
-          {t('app.title', { who: 'Yoshi' })}
-        </h2>
-      </div>
-    );
-  }
+  const breadcrumbItems = [
+    { id: 1, value: 'Root Page' },
+    { id: 2, value: 'WSR Form' },
+  ];
+
+  return (
+    <WixStyleReactProvider>
+      <Page height="100vh">
+        <Page.Header
+          title="WSR Form"
+          breadcrumbs={<Breadcrumbs items={breadcrumbItems} activeId={2} />}
+          actionsBar={<ActiveBar onSubmit={submitForm} nClear={clearForm} />}
+        />
+        <Page.Content>
+          <Layout>
+            <Cell span={8}>
+              <GeneralInfoForm />
+            </Cell>
+            <Cell span={4}>
+              <Card>
+                <Card.Header title="Role details" />
+                <Card.Divider />
+              </Card>
+            </Cell>
+          </Layout>
+        </Page.Content>
+      </Page>
+    </WixStyleReactProvider>
+  );
 }
-
-export default withTranslation()(App);
+export default App;
