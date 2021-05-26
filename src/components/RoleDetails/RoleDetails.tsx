@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Layout,
-  Cell,
-  Button,
-  Heading,
-  Text,
-} from 'wix-style-react';
+import { Card, Layout, Cell, Button, Heading, Text } from 'wix-style-react';
 
 function RoleDetails() {
   return (

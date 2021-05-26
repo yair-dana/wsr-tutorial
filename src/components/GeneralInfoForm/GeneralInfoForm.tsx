@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AddItem,
   Layout,
@@ -12,19 +12,9 @@ import {
   IconButton,
 } from 'wix-style-react';
 import DeleteSmall from 'wix-ui-icons-common/DeleteSmall';
+import { colorOptions } from '../colorOptions';
 
 function GeneralInfoForm(props: any) {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [colorId, setColorId] = useState('-1');
-  const colorOptions = [
-    { id: '0', value: 'Red' },
-    { id: '1', value: 'Blue' },
-    { id: '2', value: 'Green' },
-    { id: '3', value: 'Yellow' },
-    { id: '4', value: 'Pink' },
-  ];
-
   return (
     <Card>
       <Card.Header title="General Info" />
@@ -34,16 +24,16 @@ function GeneralInfoForm(props: any) {
           <Cell span={6}>
             <FormField label="First name" required>
               <Input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={props.firstName}
+                onChange={(e) => props.onFirstNameChange(e.target.value)}
               />
             </FormField>
           </Cell>
           <Cell span={6}>
             <FormField label="Last name" required>
               <Input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={props.lastName}
+                onChange={(e) => props.onLastNameChange(e.target.value)}
               />
             </FormField>
           </Cell>
@@ -59,8 +49,10 @@ function GeneralInfoForm(props: any) {
                   <Dropdown
                     placeholder="Choose a color"
                     options={colorOptions}
-                    onSelect={(option) => setColorId(option.id as string)}
-                    selectedId={colorId}
+                    onSelect={(option) =>
+                      props.onColorSelect(option.id as string)
+                    }
+                    selectedId={props.colorId}
                   />
                 </Box>
                 <IconButton disabled priority="secondary">
