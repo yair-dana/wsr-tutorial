@@ -10,6 +10,7 @@ import {
 import ActiveBar from '../ActiveBar/ActiveBar';
 import GeneralInfoForm from '../GeneralInfoForm/GeneralInfoForm';
 import RoleDetails from "../RoleDetails/RoleDetails";
+import SavedData from "../SavedData/SavedData";
 
 function App() {
   const submitForm = () => {};
@@ -35,7 +36,14 @@ function App() {
               <GeneralInfoForm />
             </Cell>
             <Cell span={4}>
-              <RoleDetails/>
+              <Layout>
+                <Cell>
+                  <RoleDetails/>
+                </Cell>
+                <Cell>
+                  <SavedData firstName="yair" lastName="dana" color="red" />
+                </Cell>
+              </Layout>
             </Cell>
           </Layout>
         </Page.Content>
