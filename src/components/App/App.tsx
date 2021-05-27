@@ -36,11 +36,10 @@ function App() {
 
   const submitForm = () => {
     const color = getColorById(colorId);
-    const colorStr = color ? color.value : '';
     const newData = {
       firstname: firstName,
       lastname: lastName,
-      color: colorStr,
+      color,
     };
     setSubmittedData(newData);
   };

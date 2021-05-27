@@ -11,7 +11,7 @@ import DataHooks from '../DataHooks';
 import { getIdByColor, getColorById } from '../colorOptions';
 
 const enterFormFields = async (
-  baseElement,
+  baseElement: Element,
   firstName: string,
   lastName: string,
   colorId: string,
@@ -37,7 +37,7 @@ const enterFormFields = async (
 };
 
 const assertFormFields = async (
-  baseElement,
+  baseElement: Element,
   firstName: string,
   lastName: string,
   colorId: string,
@@ -54,10 +54,11 @@ const assertFormFields = async (
     wrapper: baseElement,
     dataHook: DataHooks.FAVORITE_COLOR,
   });
-  const color = getColorById(colorId) ? getColorById(colorId).value : '';
   expect(await inputFirstName.getText()).toEqual(firstName);
   expect(await inputLastName.getText()).toEqual(lastName);
-  expect(await dropdownColor.inputDriver.getText()).toEqual(color);
+  expect(await dropdownColor.inputDriver.getText()).toEqual(
+    getColorById(colorId),
+  );
 };
 
 describe('App', () => {

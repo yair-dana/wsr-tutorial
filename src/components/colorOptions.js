@@ -7,7 +7,11 @@ export const colorOptions = [
 ];
 
 export const getColorById = (id) => {
-  return colorOptions.find((color) => color.id === id);
+  const colorObj = colorOptions.find((color) => color.id === id);
+  if (colorObj) {
+    return colorObj.value;
+  }
+  return '';
 };
 
 export const getIdByColor = (colorValue) => {
