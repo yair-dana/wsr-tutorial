@@ -8,7 +8,7 @@ import {
   ButtonTestkit,
 } from 'wix-style-react/dist/testkit';
 import DataHooks from '../DataHooks';
-import { getIdByColor } from '../colorOptions';
+import { getIdByColor, getColorById } from '../colorOptions';
 
 const enterFormFields = async (
   baseElement,
@@ -36,7 +36,47 @@ const enterFormFields = async (
   }
 };
 
+const assertFormFields = async (
+  baseElement,
+  firstName: string,
+  lastName: string,
+  colorId: string,
+) => {
+  const inputFirstName = inputTestkitFactory({
+    wrapper: baseElement,
+    dataHook: DataHooks.FIRST_NAME,
+  });
+  const inputLastName = inputTestkitFactory({
+    wrapper: baseElement,
+    dataHook: DataHooks.LAST_NAME,
+  });
+  const dropdownColor = DropdownTestkit({
+    wrapper: baseElement,
+    dataHook: DataHooks.FAVORITE_COLOR,
+  });
+  const color = getColorById(colorId) ? getColorById(colorId).value : '';
+  expect(await inputFirstName.getText()).toEqual(firstName);
+  expect(await inputLastName.getText()).toEqual(lastName);
+  expect(await dropdownColor.inputDriver.getText()).toEqual(color);
+};
+
 describe('App', () => {
+  it('should clear form after user click clear', async () => {
+    const { baseElement } = render(<App />);
+
+    const clearButton = ButtonTestkit({
+      wrapper: baseElement,
+      dataHook: DataHooks.CLEAR_BUTTON,
+    });
+    const colorId = getIdByColor('Red');
+    await enterFormFields(baseElement, 'Y', 'D', colorId);
+    await assertFormFields(baseElement, 'Y', 'D', colorId);
+
+    await clearButton.click();
+
+    await assertFormFields(baseElement, '', '', '');
+  });
+
   it('should allow user clear form only after type at least one field', async () => {
     const { baseElement } = render(<App />);
     const clearButton = ButtonTestkit({
@@ -88,6 +128,7 @@ describe('App', () => {
 
     const colorId = getIdByColor('Blue');
     await enterFormFields(baseElement, 'Yair', 'Dana', colorId);
+
     await submitButton.click();
 
     const submitFirstName = TextTestkit({
