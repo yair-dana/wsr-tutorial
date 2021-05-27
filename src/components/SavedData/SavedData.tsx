@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heading, Layout, Cell, Text, Card } from 'wix-style-react';
+import DataHooks from '../DataHooks';
 
 function SavedData(props: any) {
   return (
@@ -10,15 +11,21 @@ function SavedData(props: any) {
         <Layout>
           <Cell>
             <Heading appearance="H5">FIRST NAME</Heading>
-            <Text>{props.data.firstname}</Text>
+            <Text dataHook={DataHooks.SUBMIT_FIRST_NAME}>
+              {props.data.firstname}
+            </Text>
           </Cell>
           <Cell>
             <Heading appearance="H5">LAST NAME</Heading>
-            <Text>{props.data.lastname}</Text>
+            <Text dataHook={DataHooks.SUBMIT_LAST_NAME}>
+              {props.data.lastname}
+            </Text>
           </Cell>
           <Cell>
             <Heading appearance="H5">FAVORITE COLOR</Heading>
-            <Text>{props.data.color}</Text>
+            <Text dataHook={DataHooks.SUBMIT_FAVORITE_COLOR}>
+              {props.data.color}
+            </Text>
           </Cell>
         </Layout>
       </Card.Content>

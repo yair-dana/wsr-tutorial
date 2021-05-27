@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button } from 'wix-style-react';
+import DataHooks from '../DataHooks';
 
 function ActiveBar(props: any) {
   const disableSubmitButton = !props.isFormValid;
@@ -12,12 +13,17 @@ function ActiveBar(props: any) {
           priority="secondary"
           onClick={props.onClearForm}
           disabled={disableClearButton}
+          dataHook={DataHooks.CLEAR_BUTTON}
         >
           Clear
         </Button>
       </Box>
       <Box>
-        <Button onClick={props.onSubmitForm} disabled={disableSubmitButton}>
+        <Button
+          dataHook={DataHooks.SUBMIT_BUTTON}
+          onClick={props.onSubmitForm}
+          disabled={disableSubmitButton}
+        >
           Submit
         </Button>
       </Box>
