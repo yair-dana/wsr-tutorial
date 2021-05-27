@@ -1,5 +1,6 @@
 const validator = require('validator');
 
+import './App.scss';
 import React, { useState, useCallback } from 'react';
 import {
   Layout,
@@ -56,9 +57,7 @@ function App() {
   ];
 
   return (
-    <WixStyleReactProvider
-      features={{ reducedSpacingAndImprovedLayout: false }}
-    >
+    <WixStyleReactProvider>
       <Page height="100vh">
         <Page.Header
           title="WSR Form"

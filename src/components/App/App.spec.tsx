@@ -1,152 +1,115 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
-import {
-  inputTestkitFactory,
-  DropdownTestkit,
-  TextTestkit,
-  ButtonTestkit,
-} from 'wix-style-react/dist/testkit';
-import DataHooks from '../DataHooks';
-import { getIdByColor, getColorById } from '../colorOptions';
-
-const enterFormFields = async (
-  baseElement: Element,
-  firstName: string,
-  lastName: string,
-  colorId: string,
-) => {
-  const inputFirstName = inputTestkitFactory({
-    wrapper: baseElement,
-    dataHook: DataHooks.FIRST_NAME,
-  });
-  const inputLastName = inputTestkitFactory({
-    wrapper: baseElement,
-    dataHook: DataHooks.LAST_NAME,
-  });
-  const dropdownColor = DropdownTestkit({
-    wrapper: baseElement,
-    dataHook: DataHooks.FAVORITE_COLOR,
-  });
-
-  await inputFirstName.enterText(firstName);
-  await inputLastName.enterText(lastName);
-  if (colorId !== '') {
-    await dropdownColor.driver.selectOptionById(colorId);
-  }
-};
-
-const assertFormFields = async (
-  baseElement: Element,
-  firstName: string,
-  lastName: string,
-  colorId: string,
-) => {
-  const inputFirstName = inputTestkitFactory({
-    wrapper: baseElement,
-    dataHook: DataHooks.FIRST_NAME,
-  });
-  const inputLastName = inputTestkitFactory({
-    wrapper: baseElement,
-    dataHook: DataHooks.LAST_NAME,
-  });
-  const dropdownColor = DropdownTestkit({
-    wrapper: baseElement,
-    dataHook: DataHooks.FAVORITE_COLOR,
-  });
-  expect(await inputFirstName.getText()).toEqual(firstName);
-  expect(await inputLastName.getText()).toEqual(lastName);
-  expect(await dropdownColor.inputDriver.getText()).toEqual(
-    getColorById(colorId),
-  );
-};
+import RTLAppDriver from './AppDriver';
 
 describe('App', () => {
-  it('should clear form after user click clear', async () => {
+  let driver: RTLAppDriver;
+  const EMPTY = '';
+  const testData = {
+    firstName: 'Yair',
+    lastName: 'Dana',
+    color: 'Blue',
+  };
+
+  beforeEach(() => {
     const { baseElement } = render(<App />);
-
-    const clearButton = ButtonTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.CLEAR_BUTTON,
-    });
-    const colorId = getIdByColor('Red');
-    await enterFormFields(baseElement, 'Y', 'D', colorId);
-    await assertFormFields(baseElement, 'Y', 'D', colorId);
-
-    await clearButton.click();
-
-    await assertFormFields(baseElement, '', '', '');
-  });
-
-  it('should allow user clear form only after type at least one field', async () => {
-    const { baseElement } = render(<App />);
-    const clearButton = ButtonTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.CLEAR_BUTTON,
-    });
-
-    expect(await clearButton.isButtonDisabled()).toEqual(true);
-
-    await enterFormFields(baseElement, 'Y', '', '');
-
-    expect(await clearButton.isButtonDisabled()).toEqual(false);
-
-    await enterFormFields(baseElement, '', 'D', '');
-
-    expect(await clearButton.isButtonDisabled()).toEqual(false);
-
-    await enterFormFields(baseElement, '', '', '1');
-
-    expect(await clearButton.isButtonDisabled()).toEqual(false);
-  });
-
-  it('should allow user submit form only after fills required fields', async () => {
-    const { baseElement } = render(<App />);
-    const submitButton = ButtonTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.SUBMIT_BUTTON,
-    });
-
-    await enterFormFields(baseElement, 'Yair', '', '');
-
-    expect(await submitButton.isButtonDisabled()).toEqual(true);
-
-    await enterFormFields(baseElement, '', 'Dana', '');
-
-    expect(await submitButton.isButtonDisabled()).toEqual(true);
-
-    await enterFormFields(baseElement, 'Yair', 'Dana', '');
-
-    expect(await submitButton.isButtonDisabled()).toEqual(false);
+    driver = new RTLAppDriver(baseElement);
   });
 
   it('should display submitted info when user click submit', async () => {
-    const { baseElement } = render(<App />);
-    const submitButton = ButtonTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.SUBMIT_BUTTON,
-    });
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.enterLastName(testData.lastName);
+    await driver.when.selectColor(testData.color);
 
-    const colorId = getIdByColor('Blue');
-    await enterFormFields(baseElement, 'Yair', 'Dana', colorId);
+    await driver.when.submitButtonClick();
 
-    await submitButton.click();
+    expect(await driver.get.savedDataFirstName()).toEqual(testData.firstName);
+    expect(await driver.get.savedDataLastName()).toEqual(testData.lastName);
+    expect(await driver.get.savedDataColor()).toEqual(testData.color);
+  });
 
-    const submitFirstName = TextTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.SUBMIT_FIRST_NAME,
-    });
-    const submitLastName = TextTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.SUBMIT_LAST_NAME,
-    });
-    const submitFavoriteColor = TextTestkit({
-      wrapper: baseElement,
-      dataHook: DataHooks.SUBMIT_FAVORITE_COLOR,
-    });
+  it('should override save data when user submit another form', async () => {
+    const testOverrideData = {
+      firstName: 'Dummy First Name',
+      lastName: 'Dummy Last Name',
+      color: 'Red',
+    };
 
-    expect(await submitFirstName.getText()).toEqual('Yair');
-    expect(await submitLastName.getText()).toEqual('Dana');
-    expect(await submitFavoriteColor.getText()).toEqual('Blue');
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.enterLastName(testData.lastName);
+    await driver.when.selectColor(testData.color);
+
+    await driver.when.submitButtonClick();
+
+    await driver.when.enterFirstName(testOverrideData.firstName);
+    await driver.when.enterLastName(testOverrideData.lastName);
+    await driver.when.selectColor(testOverrideData.color);
+
+    await driver.when.submitButtonClick();
+
+    expect(await driver.get.savedDataFirstName()).toEqual(
+      testOverrideData.firstName,
+    );
+    expect(await driver.get.savedDataLastName()).toEqual(
+      testOverrideData.lastName,
+    );
+    expect(await driver.get.savedDataColor()).toEqual(testOverrideData.color);
+  });
+
+  it('should clear form when user click clear', async () => {
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.enterLastName(testData.lastName);
+    await driver.when.selectColor(testData.color);
+
+    await driver.when.clearButtonClick();
+
+    expect(await driver.get.firstNameValue()).toEqual(EMPTY);
+    expect(await driver.get.lastNameValue()).toEqual(EMPTY);
+    expect(await driver.get.color()).toEqual(EMPTY);
+  });
+
+  it('should enable clear button after user type at least one filed', async () => {
+    expect(await driver.is.clearButtonDisabled()).toEqual(true);
+
+    await driver.when.enterFirstName(EMPTY);
+    await driver.when.enterLastName(EMPTY);
+    await driver.when.selectColor(testData.color);
+
+    expect(await driver.is.clearButtonDisabled()).toEqual(false);
+
+    await driver.when.enterFirstName(EMPTY);
+    await driver.when.enterLastName(testData.lastName);
+    await driver.when.selectColor(EMPTY);
+
+    expect(await driver.is.clearButtonDisabled()).toEqual(false);
+
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.enterLastName(EMPTY);
+    await driver.when.selectColor(EMPTY);
+
+    expect(await driver.is.clearButtonDisabled()).toEqual(false);
+  });
+
+  it('should enable submit button after user fills all required fields', async () => {
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.clearButtonClick();
+
+    expect(await driver.is.submitButtonDisabled()).toEqual(true);
+
+    await driver.when.enterLastName(testData.lastName);
+    await driver.when.clearButtonClick();
+
+    expect(await driver.is.submitButtonDisabled()).toEqual(true);
+
+    await driver.when.selectColor(testData.color);
+    await driver.when.clearButtonClick();
+
+    expect(await driver.is.submitButtonDisabled()).toEqual(true);
+
+    await driver.when.enterFirstName(testData.firstName);
+    await driver.when.enterLastName(testData.lastName);
+
+    expect(await driver.is.submitButtonDisabled()).toEqual(false);
   });
 });

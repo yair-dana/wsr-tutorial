@@ -1,6 +1,5 @@
 import {
   DropdownTestkit,
-  InputTestkit,
   inputTestkitFactory,
   ButtonTestkit,
   TextTestkit,
