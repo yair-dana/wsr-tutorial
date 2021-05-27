@@ -10,7 +10,7 @@ import { getIdByColor } from '../colorOptions';
 class RTLAppDriver {
   constructor(private baseElement: Element) {}
   is = {
-    clearButtonDisabled: () => {
+    clearButtonDisabled: async () => {
       const clearButton = ButtonTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.CLEAR_BUTTON,
@@ -18,7 +18,7 @@ class RTLAppDriver {
 
       return clearButton.isButtonDisabled();
     },
-    submitButtonDisabled: () => {
+    submitButtonDisabled: async () => {
       const submitButton = ButtonTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.SUBMIT_BUTTON,
@@ -29,14 +29,14 @@ class RTLAppDriver {
   };
 
   get = {
-    firstNameValue: () => {
+    firstNameValue: async () => {
       const inputFirstName = inputTestkitFactory({
         wrapper: this.baseElement,
         dataHook: DataHooks.FIRST_NAME,
       });
       return inputFirstName.getText();
     },
-    lastNameValue: () => {
+    lastNameValue: async () => {
       const inputLastName = inputTestkitFactory({
         wrapper: this.baseElement,
         dataHook: DataHooks.LAST_NAME,
@@ -44,7 +44,7 @@ class RTLAppDriver {
 
       return inputLastName.getText();
     },
-    color: () => {
+    color: async () => {
       const dropdownColor = DropdownTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.FAVORITE_COLOR,
@@ -52,7 +52,7 @@ class RTLAppDriver {
 
       return dropdownColor.inputDriver.getText();
     },
-    savedDataFirstName: () => {
+    savedDataFirstName: async () => {
       const firstName = TextTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.SUBMIT_FIRST_NAME,
@@ -60,14 +60,14 @@ class RTLAppDriver {
 
       return firstName.getText();
     },
-    savedDataLastName: () => {
+    savedDataLastName: async () => {
       const lastName = TextTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.SUBMIT_LAST_NAME,
       });
       return lastName.getText();
     },
-    savedDataColor: () => {
+    savedDataColor: async () => {
       const favoriteColor = TextTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.SUBMIT_FAVORITE_COLOR,
@@ -78,7 +78,7 @@ class RTLAppDriver {
   };
 
   when = {
-    enterFirstName: (name: string) => {
+    enterFirstName: async (name: string) => {
       const inputFirstName = inputTestkitFactory({
         wrapper: this.baseElement,
         dataHook: DataHooks.FIRST_NAME,
@@ -86,7 +86,7 @@ class RTLAppDriver {
 
       return inputFirstName.enterText(name);
     },
-    enterLastName: (name: string) => {
+    enterLastName: async (name: string) => {
       const inputLastName = inputTestkitFactory({
         wrapper: this.baseElement,
         dataHook: DataHooks.LAST_NAME,
@@ -94,7 +94,7 @@ class RTLAppDriver {
 
       return inputLastName.enterText(name);
     },
-    selectColor: (color: string) => {
+    selectColor: async (color: string) => {
       const dropdownColor = DropdownTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.FAVORITE_COLOR,
@@ -106,7 +106,7 @@ class RTLAppDriver {
 
       return dropdownColor.driver.selectOptionById(colorId);
     },
-    clearButtonClick: () => {
+    clearButtonClick: async () => {
       const clearButton = ButtonTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.CLEAR_BUTTON,
@@ -114,7 +114,7 @@ class RTLAppDriver {
 
       return clearButton.click();
     },
-    submitButtonClick: () => {
+    submitButtonClick: async () => {
       const submitButton = ButtonTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.SUBMIT_BUTTON,
