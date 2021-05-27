@@ -11,5 +11,9 @@ export const getColorById = (id) => {
 };
 
 export const getIdByColor = (colorValue) => {
-  return colorOptions.find((color) => color.value === colorValue);
+  const color = colorOptions.find((color) => color.value === colorValue);
+  if (color) {
+    return color.id;
+  }
+  return '';
 };

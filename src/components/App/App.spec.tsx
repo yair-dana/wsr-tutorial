@@ -8,6 +8,7 @@ import {
   ButtonTestkit,
 } from 'wix-style-react/dist/testkit';
 import DataHooks from '../DataHooks';
+import { getIdByColor } from '../colorOptions';
 
 const enterFormFields = async (
   baseElement,
@@ -85,8 +86,8 @@ describe('App', () => {
       dataHook: DataHooks.SUBMIT_BUTTON,
     });
 
-    // FIXME: using getIdByColor
-    await enterFormFields(baseElement, 'Yair', 'Dana', '1');
+    const colorId = getIdByColor('Blue');
+    await enterFormFields(baseElement, 'Yair', 'Dana', colorId);
     await submitButton.click();
 
     const submitFirstName = TextTestkit({
