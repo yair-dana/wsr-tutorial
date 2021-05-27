@@ -10,14 +10,14 @@ function ActiveBar(props: any) {
       <Box marginRight="12px">
         <Button
           priority="secondary"
-          onClick={props.onClear}
+          onClick={props.onClearForm}
           disabled={disableClearButton}
         >
           Clear
         </Button>
       </Box>
       <Box>
-        <Button onClick={props.onSubmit} disabled={disableSubmitButton}>
+        <Button onClick={props.onSubmitForm} disabled={disableSubmitButton}>
           Submit
         </Button>
       </Box>

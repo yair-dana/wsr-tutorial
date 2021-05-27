@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+const validator = require('validator');
+
+import React, { useState, useCallback } from 'react';
 import {
   Layout,
   Cell,
@@ -12,58 +14,41 @@ import RoleDetails from '../RoleDetails/RoleDetails';
 import SavedData from '../SavedData/SavedData';
 import { getColorById } from '../colorOptions';
 
-const validator = require('validator');
+const initData = { firstname: '', lastname: '', color: '' };
 
 function App() {
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [isFormEmpty, setIsFormEmpty] = useState(true);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  const [submittedData, setSubmittedData] = useState({
-    firstname: '',
-    lastname: '',
-    color: '',
-  });
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [colorId, setColorId] = useState('-1');
+  const [submittedData, setSubmittedData] = useState(initData);
 
-  useEffect(() => {
-    if (!validator.isEmpty(firstName) && !validator.isEmpty(lastName)) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
-    }
+  const isFormValid = useCallback(() => {
+    return !validator.isEmpty(firstName) && !validator.isEmpty(lastName);
+  }, [firstName, lastName]);
 
-    if (
-      !validator.isEmpty(firstName) ||
-      !validator.isEmpty(lastName) ||
-      colorId !== '-1'
-    ) {
-      setIsFormEmpty(false);
-    } else {
-      setIsFormEmpty(true);
-    }
+  const isFormEmpty = useCallback(() => {
+    return (
+      validator.isEmpty(firstName) &&
+      validator.isEmpty(lastName) &&
+      colorId === '-1'
+    );
   }, [firstName, lastName, colorId]);
 
   const submitForm = () => {
     const color = getColorById(colorId);
     const colorStr = color ? color.value : '';
-    setIsFormSubmitted(true);
     const newData = {
       firstname: firstName,
       lastname: lastName,
       color: colorStr,
     };
     setSubmittedData(newData);
-    setIsFormSubmitted(true);
   };
 
   const clearForm = () => {
     setFirstName('');
     setLastName('');
     setColorId('-1');
-    setIsFormEmpty(true);
-    setIsFormValid(false);
   };
 
   const breadcrumbItems = [
@@ -72,17 +57,19 @@ function App() {
   ];
 
   return (
-    <WixStyleReactProvider>
+    <WixStyleReactProvider
+      features={{ reducedSpacingAndImprovedLayout: false }}
+    >
       <Page height="100vh">
         <Page.Header
           title="WSR Form"
           breadcrumbs={<Breadcrumbs items={breadcrumbItems} activeId={2} />}
           actionsBar={
             <ActiveBar
-              onSubmit={submitForm}
-              onClear={clearForm}
-              isFormValid={isFormValid}
-              isFormEmpty={isFormEmpty}
+              onSubmitForm={submitForm}
+              onClearForm={clearForm}
+              isFormValid={isFormValid()}
+              isFormEmpty={isFormEmpty()}
             />
           }
         />
@@ -104,7 +91,9 @@ function App() {
                   <RoleDetails />
                 </Cell>
                 <Cell>
-                  {isFormSubmitted && <SavedData data={submittedData} />}
+                  {submittedData !== initData && (
+                    <SavedData data={submittedData} />
+                  )}
                 </Cell>
               </Layout>
             </Cell>
