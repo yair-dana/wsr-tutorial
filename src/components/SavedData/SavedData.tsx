@@ -21,12 +21,14 @@ function SavedData(props: any) {
               {props.data.lastname}
             </Text>
           </Cell>
-          <Cell>
-            <Heading appearance="H5">FAVORITE COLOR</Heading>
-            <Text dataHook={DataHooks.SUBMIT_FAVORITE_COLOR}>
-              {props.data.color}
-            </Text>
-          </Cell>
+          {props.data.color !== '' && (
+            <Cell>
+              <Heading appearance="H5">FAVORITE COLOR</Heading>
+              <Text dataHook={DataHooks.SUBMIT_FAVORITE_COLOR}>
+                {props.data.color}
+              </Text>
+            </Cell>
+          )}
         </Layout>
       </Card.Content>
     </Card>
