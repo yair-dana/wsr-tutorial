@@ -1,3 +1,5 @@
+import DataHooks from '../DataHooks';
+
 const validator = require('validator');
 
 import './App.scss';
@@ -8,6 +10,7 @@ import {
   Breadcrumbs,
   WixStyleReactProvider,
   Page,
+  FontUpgrade,
 } from 'wix-style-react';
 import ActiveBar from '../ActiveBar/ActiveBar';
 import GeneralInfoForm from '../GeneralInfoForm/GeneralInfoForm';
@@ -15,13 +18,13 @@ import RoleDetails from '../RoleDetails/RoleDetails';
 import SavedData from '../SavedData/SavedData';
 import { getColorById } from '../colorOptions';
 
-const initData = { firstname: '', lastname: '', color: '' };
+const initialFormData = { firstname: '', lastname: '', color: '' };
 
 function App() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [colorId, setColorId] = useState('-1');
-  const [submittedData, setSubmittedData] = useState(initData);
+  const [colorId, setColorId] = useState(undefined);
+  const [submittedData, setSubmittedData] = useState(initialFormData);
 
   const isFormValid = useCallback(() => {
     return !validator.isEmpty(firstName) && !validator.isEmpty(lastName);
@@ -31,7 +34,7 @@ function App() {
     return (
       validator.isEmpty(firstName) &&
       validator.isEmpty(lastName) &&
-      colorId === '-1'
+      colorId === undefined
     );
   }, [firstName, lastName, colorId]);
 
@@ -48,7 +51,7 @@ function App() {
   const clearForm = () => {
     setFirstName('');
     setLastName('');
-    setColorId('-1');
+    setColorId(undefined);
   };
 
   const breadcrumbItems = [
@@ -57,47 +60,50 @@ function App() {
   ];
 
   return (
-    <WixStyleReactProvider>
-      <Page height="100vh">
-        <Page.Header
-          title="WSR Form"
-          breadcrumbs={<Breadcrumbs items={breadcrumbItems} activeId={2} />}
-          actionsBar={
-            <ActiveBar
-              onSubmitForm={submitForm}
-              onClearForm={clearForm}
-              isFormValid={isFormValid()}
-              isFormEmpty={isFormEmpty()}
-            />
-          }
-        />
-        <Page.Content>
-          <Layout>
-            <Cell span={8}>
-              <GeneralInfoForm
-                onFirstNameChange={setFirstName}
-                onLastNameChange={setLastName}
-                onColorSelect={setColorId}
-                firstName={firstName}
-                lastName={lastName}
-                colorId={colorId}
+    <WixStyleReactProvider features={{ reducedSpacingAndImprovedLayout: true }}>
+      <FontUpgrade>
+        <Page height="100vh">
+          <Page.Header
+            dataHook={DataHooks.PAGE_HEADER}
+            title="WSR Form"
+            breadcrumbs={<Breadcrumbs items={breadcrumbItems} activeId={2} />}
+            actionsBar={
+              <ActiveBar
+                onSubmitForm={submitForm}
+                onClearForm={clearForm}
+                isFormValid={isFormValid()}
+                isFormEmpty={isFormEmpty()}
               />
-            </Cell>
-            <Cell span={4}>
-              <Layout>
-                <Cell>
-                  <RoleDetails />
-                </Cell>
-                <Cell>
-                  {submittedData !== initData && (
-                    <SavedData data={submittedData} />
-                  )}
-                </Cell>
-              </Layout>
-            </Cell>
-          </Layout>
-        </Page.Content>
-      </Page>
+            }
+          />
+          <Page.Content>
+            <Layout>
+              <Cell span={8}>
+                <GeneralInfoForm
+                  onFirstNameChange={setFirstName}
+                  onLastNameChange={setLastName}
+                  onColorSelect={setColorId}
+                  firstName={firstName}
+                  lastName={lastName}
+                  colorId={colorId}
+                />
+              </Cell>
+              <Cell span={4}>
+                <Layout>
+                  <Cell>
+                    <RoleDetails />
+                  </Cell>
+                  <Cell>
+                    {submittedData !== initialFormData && (
+                      <SavedData data={submittedData} />
+                    )}
+                  </Cell>
+                </Layout>
+              </Cell>
+            </Layout>
+          </Page.Content>
+        </Page>
+      </FontUpgrade>
     </WixStyleReactProvider>
   );
 }
