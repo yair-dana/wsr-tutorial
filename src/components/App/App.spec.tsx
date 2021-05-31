@@ -5,7 +5,6 @@ import RTLAppDriver from './AppDriver';
 
 describe('App', () => {
   let driver: RTLAppDriver;
-  const EMPTY = '';
   const testData = {
     firstName: 'Yair',
     lastName: 'Dana',
@@ -64,29 +63,29 @@ describe('App', () => {
 
     await driver.when.clearButtonClick();
 
-    expect(await driver.get.firstNameValue()).toEqual(EMPTY);
-    expect(await driver.get.lastNameValue()).toEqual(EMPTY);
-    expect(await driver.get.color()).toEqual(EMPTY);
+    expect(await driver.get.firstNameValue()).toEqual('');
+    expect(await driver.get.lastNameValue()).toEqual('');
+    expect(await driver.get.color()).toEqual('');
   });
 
   it('should enable clear button after user type at least one filed', async () => {
     expect(await driver.is.clearButtonDisabled()).toEqual(true);
 
-    await driver.when.enterFirstName(EMPTY);
-    await driver.when.enterLastName(EMPTY);
+    await driver.when.enterFirstName('');
+    await driver.when.enterLastName('');
     await driver.when.selectColor(testData.color);
 
     expect(await driver.is.clearButtonDisabled()).toEqual(false);
 
-    await driver.when.enterFirstName(EMPTY);
+    await driver.when.enterFirstName('');
     await driver.when.enterLastName(testData.lastName);
-    await driver.when.selectColor(EMPTY);
+    await driver.when.selectColor('');
 
     expect(await driver.is.clearButtonDisabled()).toEqual(false);
 
     await driver.when.enterFirstName(testData.firstName);
-    await driver.when.enterLastName(EMPTY);
-    await driver.when.selectColor(EMPTY);
+    await driver.when.enterLastName('');
+    await driver.when.selectColor('');
 
     expect(await driver.is.clearButtonDisabled()).toEqual(false);
   });
