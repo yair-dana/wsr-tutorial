@@ -6,7 +6,7 @@ export const colorOptions = [
   { id: '4', value: 'Pink' },
 ];
 
-export const getColorById = (id) => {
+export const getColorById = (id: string | undefined) => {
   const colorObj = colorOptions.find((color) => color.id === id);
   if (colorObj) {
     return colorObj.value;
@@ -14,7 +14,7 @@ export const getColorById = (id) => {
   return '';
 };
 
-export const getIdByColor = (colorValue) => {
+export const getIdByColor = (colorValue: string | undefined) => {
   const colorObj = colorOptions.find((color) => color.value === colorValue);
   if (colorObj) {
     return colorObj.id;
