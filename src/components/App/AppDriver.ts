@@ -1,6 +1,6 @@
 import {
   DropdownTestkit,
-  inputTestkitFactory,
+  InputTestkit,
   ButtonTestkit,
   TextTestkit,
 } from 'wix-style-react/dist/testkit';
@@ -30,14 +30,14 @@ class RTLAppDriver {
 
   get = {
     firstNameValue: async () => {
-      const inputFirstName = inputTestkitFactory({
+      const inputFirstName = InputTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.FIRST_NAME,
       });
       return inputFirstName.getText();
     },
     lastNameValue: async () => {
-      const inputLastName = inputTestkitFactory({
+      const inputLastName = InputTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.LAST_NAME,
       });
@@ -79,7 +79,7 @@ class RTLAppDriver {
 
   when = {
     enterFirstName: async (name: string) => {
-      const inputFirstName = inputTestkitFactory({
+      const inputFirstName = InputTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.FIRST_NAME,
       });
@@ -87,7 +87,7 @@ class RTLAppDriver {
       return inputFirstName.enterText(name);
     },
     enterLastName: async (name: string) => {
-      const inputLastName = inputTestkitFactory({
+      const inputLastName = InputTestkit({
         wrapper: this.baseElement,
         dataHook: DataHooks.LAST_NAME,
       });
