@@ -1,4 +1,5 @@
 export default {
+  PAGE_HEADER: 'page-header',
   CLEAR_BUTTON: 'clear-button',
   SUBMIT_BUTTON: 'submit-button',
   FIRST_NAME: 'first-name',
