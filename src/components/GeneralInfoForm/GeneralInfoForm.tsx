@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {
   AddItem,
   Layout,
@@ -15,7 +15,16 @@ import DeleteSmall from 'wix-ui-icons-common/DeleteSmall';
 import { colorOptions } from '../colorOptions';
 import DataHooks from '../DataHooks';
 
-function GeneralInfoForm(props: any) {
+type FormProps = {
+  onFirstNameChange: Dispatch<SetStateAction<string>>;
+  onLastNameChange: Dispatch<SetStateAction<string>>;
+  onColorSelect: Dispatch<SetStateAction<string | undefined>>;
+  firstName: string;
+  lastName: string;
+  colorId: string | undefined;
+};
+
+function GeneralInfoForm(props: FormProps) {
   return (
     <Card>
       <Card.Header title="General Info" />

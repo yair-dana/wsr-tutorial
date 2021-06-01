@@ -6,18 +6,20 @@ export const colorOptions = [
   { id: '4', value: 'Pink' },
 ];
 
-export const getColorById = (id: string | undefined) => {
+export const getColorById = (id?: string) => {
+  let colorValue = '';
   const colorObj = colorOptions.find((color) => color.id === id);
   if (colorObj) {
-    return colorObj.value;
+    colorValue = colorObj.value;
   }
-  return '';
+  return colorValue;
 };
 
-export const getIdByColor = (colorValue: string | undefined) => {
+export const getIdByColor = (colorValue?: string) => {
+  let colorID = '';
   const colorObj = colorOptions.find((color) => color.value === colorValue);
   if (colorObj) {
-    return colorObj.id;
+    colorID = colorObj.id;
   }
-  return '';
+  return colorID;
 };

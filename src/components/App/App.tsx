@@ -17,13 +17,14 @@ import GeneralInfoForm from '../GeneralInfoForm/GeneralInfoForm';
 import RoleDetails from '../RoleDetails/RoleDetails';
 import SavedData from '../SavedData/SavedData';
 import { getColorById } from '../colorOptions';
+import { BreadcrumbsItem } from 'wix-style-react/dist/es/src/Breadcrumbs';
 
 const initialFormData = { firstname: '', lastname: '', color: '' };
 
 function App() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [colorId, setColorId] = useState(undefined);
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [colorId, setColorId] = useState<string | undefined>(undefined);
   const [submittedData, setSubmittedData] = useState(initialFormData);
 
   const isFormValid = useCallback(() => {
@@ -54,7 +55,7 @@ function App() {
     setColorId(undefined);
   };
 
-  const breadcrumbItems = [
+  const breadcrumbItems: BreadcrumbsItem[] = [
     { id: 1, value: 'Root Page' },
     { id: 2, value: 'WSR Form' },
   ];

@@ -2,7 +2,15 @@ import React from 'react';
 import { Heading, Layout, Cell, Text, Card } from 'wix-style-react';
 import DataHooks from '../DataHooks';
 
-function SavedData(props: any) {
+type SavedDataProps = {
+  data: {
+    firstname: string;
+    lastname: string;
+    color: string;
+  };
+};
+
+function SavedData(props: SavedDataProps) {
   return (
     <Card>
       <Card.Header title="Saved Data" />
