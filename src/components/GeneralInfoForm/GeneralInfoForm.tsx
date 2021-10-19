@@ -68,7 +68,12 @@ function GeneralInfoForm(props: FormProps) {
                     selectedId={props.colorId}
                   />
                 </Box>
-                <IconButton disabled priority="secondary">
+                <IconButton
+                  disabled={!props.colorId}
+                  dataHook={DataHooks.TRASH_ICON}
+                  priority="secondary"
+                  onClick={() => props.onColorSelect(undefined)}
+                >
                   <DeleteSmall />
                 </IconButton>
               </Box>

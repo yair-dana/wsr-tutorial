@@ -3,6 +3,7 @@ import {
   InputTestkit,
   ButtonTestkit,
   TextTestkit,
+  IconButtonTestkit,
 } from 'wix-style-react/dist/testkit';
 import DataHooks from '../DataHooks';
 import { getIdByColor } from '../colorOptions';
@@ -25,6 +26,14 @@ class RTLAppDriver {
       });
 
       return submitButton.isButtonDisabled();
+    },
+    trashIconClickable: async () => {
+      const trashIcon = IconButtonTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.TRASH_ICON,
+      });
+      const isDisabled = await trashIcon.isButtonDisabled();
+      return !isDisabled;
     },
   };
 
@@ -52,6 +61,7 @@ class RTLAppDriver {
 
       return dropdownColor.inputDriver.getText();
     },
+
     savedDataFirstName: async () => {
       const firstName = TextTestkit({
         wrapper: this.baseElement,
@@ -121,6 +131,14 @@ class RTLAppDriver {
       });
 
       return submitButton.click();
+    },
+
+    trashIconClick: async () => {
+      const trashIcon = IconButtonTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.TRASH_ICON,
+      });
+      return trashIcon.click();
     },
   };
 }

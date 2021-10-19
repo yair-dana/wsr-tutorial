@@ -8,4 +8,5 @@ export default {
   SUBMIT_FIRST_NAME: 'submit-first-name',
   SUBMIT_LAST_NAME: 'submit-last-name',
   SUBMIT_FAVORITE_COLOR: 'submit-favorite-color',
+  TRASH_ICON: 'trash-icon',
 };

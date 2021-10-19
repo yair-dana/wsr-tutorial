@@ -2,7 +2,14 @@ import React from 'react';
 import { Box, Button } from 'wix-style-react';
 import DataHooks from '../DataHooks';
 
-function ActiveBar(props: any) {
+type ActiveBarProps = {
+  isFormValid: boolean;
+  isFormEmpty: boolean;
+  onClearForm(): void;
+  onSubmitForm(): void;
+};
+
+function ActiveBar(props: ActiveBarProps) {
   const disableSubmitButton = !props.isFormValid;
   const disableClearButton = props.isFormEmpty;
 

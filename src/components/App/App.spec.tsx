@@ -90,7 +90,7 @@ describe('App', () => {
     expect(await driver.is.clearButtonDisabled()).toEqual(false);
   });
 
-  it('should enable submit button after user fills all required fields', async () => {
+  it('should enable submit button ONLY after user fills all required fields', async () => {
     await driver.when.enterFirstName(testData.firstName);
     await driver.when.clearButtonClick();
 
@@ -110,5 +110,24 @@ describe('App', () => {
     await driver.when.enterLastName(testData.lastName);
 
     expect(await driver.is.submitButtonDisabled()).toEqual(false);
+  });
+
+  it('should clear favorite color from dropdown when user click trash icon', async () => {
+    await driver.when.selectColor(testData.color);
+    expect(await driver.get.color()).toEqual(testData.color);
+
+    await driver.when.trashIconClick();
+    expect(await driver.get.color()).toEqual('');
+  });
+
+  it('should disable trash icon when no color chosen', async () => {
+    expect(await driver.is.trashIconClickable()).toBe(false);
+
+    await driver.when.selectColor(testData.color);
+    expect(await driver.get.color()).toEqual(testData.color);
+    expect(await driver.is.trashIconClickable()).toBe(true);
+
+    await driver.when.trashIconClick();
+    expect(await driver.is.trashIconClickable()).toBe(false);
   });
 });
