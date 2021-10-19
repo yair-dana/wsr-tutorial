@@ -1,0 +1,17 @@
+export default {
+  PAGE_HEADER: 'page-header',
+  CLEAR_BUTTON: 'clear-button',
+  SUBMIT_BUTTON: 'submit-button',
+  FIRST_NAME: 'first-name',
+  LAST_NAME: 'last-name',
+  FAVORITE_COLOR: 'favorite-color',
+  SUBMIT_FIRST_NAME: 'submit-first-name',
+  SUBMIT_LAST_NAME: 'submit-last-name',
+  SUBMIT_FAVORITE_COLOR: 'submit-favorite-color',
+  TRASH_ICON: 'trash-icon',
+  OFFICIAL_TITLE_TEXT: 'official-title-text',
+  OFFICIAL_TITLE_INPUT: 'official-title-input',
+  EXPERIENCE_TEXT: 'experience-text',
+  EXPERIENCE_INPUT: 'experience-input',
+  EDIT_DETAILS: 'edit-details-button',
+};
