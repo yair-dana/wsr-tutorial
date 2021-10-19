@@ -1,14 +1,31 @@
-import React from 'react';
-import { Card, Layout, Cell, Button, Heading, Text } from 'wix-style-react';
+import React, { useState } from 'react';
+import {
+  Card,
+  Layout,
+  Cell,
+  Button,
+  Heading,
+  Text,
+  Input,
+} from 'wix-style-react';
+import DataHooks from '../DataHooks';
 
 function RoleDetails() {
+  const [officialTitle, setOfficialTitle] = useState('Keyboard annihilator');
+  const [experience, setExperience] = useState('It’s over nine thousand');
+  const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <Card>
       <Card.Header
         title="Role details"
         suffix={
-          <Button priority="secondary" disabled>
-            Edit
+          <Button
+            dataHook={DataHooks.EDIT_DETAILS}
+            priority="secondary"
+            onClick={() => setIsEditMode((prev) => !prev)}
+          >
+            {!isEditMode ? 'Edit' : 'Save'}
           </Button>
         }
       />
@@ -17,11 +34,29 @@ function RoleDetails() {
         <Layout>
           <Cell>
             <Heading appearance="H6">OFFICIAL TITLE</Heading>
-            <Text>Keyboard annihilator</Text>
+            {isEditMode ? (
+              <Input
+                dataHook={DataHooks.OFFICIAL_TITLE_INPUT}
+                value={officialTitle}
+                onChange={(e) => setOfficialTitle(e.target.value)}
+              />
+            ) : (
+              <Text dataHook={DataHooks.OFFICIAL_TITLE_TEXT}>
+                {officialTitle}
+              </Text>
+            )}
           </Cell>
           <Cell>
             <Heading appearance="H6">EXPERIENCE</Heading>
-            <Text>It’s over nine thousand</Text>
+            {isEditMode ? (
+              <Input
+                dataHook={DataHooks.EXPERIENCE_INPUT}
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
+              />
+            ) : (
+              <Text dataHook={DataHooks.EXPERIENCE_TEXT}>{experience}</Text>
+            )}
           </Cell>
         </Layout>
       </Card.Content>

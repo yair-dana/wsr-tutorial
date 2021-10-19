@@ -38,6 +38,12 @@ class RTLAppDriver {
   };
 
   get = {
+    editSaveButton: async () =>
+      ButtonTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.EDIT_DETAILS,
+      }),
+
     firstNameValue: async () => {
       const inputFirstName = InputTestkit({
         wrapper: this.baseElement,
@@ -85,6 +91,35 @@ class RTLAppDriver {
 
       return favoriteColor.getText();
     },
+
+    editSaveButtonTitle: async () => {
+      const buttonDriver = await this.get.editSaveButton();
+      return buttonDriver.getButtonTextContent();
+    },
+
+    experienceInput: async () =>
+      InputTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.EXPERIENCE_INPUT,
+      }),
+
+    officialInput: async () =>
+      InputTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.OFFICIAL_TITLE_INPUT,
+      }),
+
+    experienceValue: async () =>
+      TextTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.EXPERIENCE_TEXT,
+      }).getText(),
+
+    officialValue: async () =>
+      TextTestkit({
+        wrapper: this.baseElement,
+        dataHook: DataHooks.OFFICIAL_TITLE_TEXT,
+      }).getText(),
   };
 
   when = {
@@ -139,6 +174,21 @@ class RTLAppDriver {
         dataHook: DataHooks.TRASH_ICON,
       });
       return trashIcon.click();
+    },
+
+    editSaveRoleButtonClick: async () => {
+      const buttonDriver = await this.get.editSaveButton();
+      return buttonDriver.click();
+    },
+
+    enterExperience: async (value: string) => {
+      const inputDriver = await this.get.experienceInput();
+      return inputDriver.enterText(value);
+    },
+
+    enterOfficialTitle: async (value: string) => {
+      const inputDriver = await this.get.officialInput();
+      return inputDriver.enterText(value);
     },
   };
 }
